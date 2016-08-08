@@ -7,7 +7,6 @@
 //
 
 #import "ACSpecialCategoryView.h"
-#import "ACGlobal.h"
 #import "ACScrollingLabel.h"
 
 @interface ACSpecialCategoryView ()
