@@ -10,7 +10,7 @@
 
 typedef void (^categoryViewTapBlock)(NSInteger index);
 
-@interface ACSpecialCategoryView : UIScrollView
+@interface ACSubjectCategoryView : UIScrollView
 
 -(instancetype)initWithContents:(NSArray *)array;
 

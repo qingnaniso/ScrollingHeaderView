@@ -6,10 +6,11 @@
 //  Copyright © 2016年 Art. All rights reserved.
 //
 
-#import "ACSpecialCategoryView.h"
+#import "ACSubjectCategoryView.h"
+//#import "ACGlobal.h"
 #import "ACScrollingLabel.h"
 
-@interface ACSpecialCategoryView ()
+@interface ACSubjectCategoryView ()
 
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) UILabel *currentChosenLabel;
@@ -19,7 +20,7 @@
 @property (strong, nonatomic) NSAttributedString *stringForMeasureWordLength;
 @end
 
-@implementation ACSpecialCategoryView
+@implementation ACSubjectCategoryView
 
 -(instancetype)initWithContents:(NSArray *)array
 {
@@ -92,7 +93,7 @@
     
     //初始化滑块位置
     [self scrollingBlockSrollToIndex:0];
-    
+    self.currentChosenLabel = [self.LabelsArray firstObject];
     //默认选择第一项
     [self scrollToIdx:0];
     //设置scrollview内容大小
@@ -120,6 +121,7 @@
         UILabel *label = (UILabel *)rec.view;
         self.tapBlock([self.LabelsArray indexOfObject:label]);
     };
+    [self scrollingBlockSrollToIndex:[self.LabelsArray indexOfObject:rec.view]];
 }
 
 -(void)whenTapped:(categoryViewTapBlock)tapBlock
@@ -157,9 +159,9 @@
     
     UILabel *label = self.LabelsArray[index];
     
-    CGFloat x = label.frame.origin.x - (kScreenWidth / 2 - label.frame.size.width / 2);
+    CGFloat x = label.frame.origin.x - ([UIApplication sharedApplication].keyWindow.frame.size.width / 2 - label.frame.size.width / 2);
     
-    [self scrollRectToVisible:CGRectMake(x, 0, kScreenWidth, 44) animated:YES];
+    [self scrollRectToVisible:CGRectMake(x, 0, [UIApplication sharedApplication].keyWindow.frame.size.width, 44) animated:YES];
     
     [self makeScaleBigAnimation:label];
     
@@ -172,8 +174,10 @@
         [self scrollToIdx:index];
     }
     ACScrollingLabel *fromLabel = (ACScrollingLabel *)self.currentChosenLabel;
-    CGFloat distance = self.contentSize.width;
-    self.scrollingBlock.frame = CGRectMake(40 - fromLabel.width / 2 + progress *distance, 44 - 2, fromLabel.width, 2);
+    if (fromLabel) {
+        CGFloat distance = self.contentSize.width;
+        self.scrollingBlock.frame = CGRectMake(40 - fromLabel.width / 2 + progress *distance, 44 - 2, fromLabel.width, 2);
+    }
 }
 
 - (void)makeScaleBigAnimation:(UIView *)view
